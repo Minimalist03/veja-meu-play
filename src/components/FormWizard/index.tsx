@@ -1,16 +1,15 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { LeadFormData, QualificationResult } from "@/types/lead";
+import { leadFormSchema } from "@/lib/validation"; // CORRIGIDO: usar arquivo existente
+import { qualificar } from "@/lib/qualification";
+import { enviarParaSheets } from "@/services/sheets";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
-import { LeadFormData } from "@/types/lead";
-import { leadFormSchema } from "@/lib/validationSchema";
-import { qualificar } from "@/lib/qualification";
-import { enviarParaSheets } from "@/services/sheets";
 
 import { StepPersonalData } from "./StepPersonalData";
 import { StepFlightData } from "./StepFlightData";
