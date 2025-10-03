@@ -1,38 +1,43 @@
 import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LeadFormData, QualificationResult } from "@/types/lead";
-import { leadSchema } from "@/lib/validation";
-import { qualificar } from "@/lib/qualification";
 import { Button } from "@/components/ui/button";
-import { ProgressBar } from "@/components/ProgressBar";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+
+import { LeadFormData } from "@/types/lead";
+import { leadFormSchema } from "@/lib/validationSchema";
+import { qualificar } from "@/lib/qualification";
+import { enviarParaSheets } from "@/services/sheets";
+
 import { StepPersonalData } from "./StepPersonalData";
 import { StepFlightData } from "./StepFlightData";
 import { StepDiagnostic } from "./StepDiagnostic";
 import { StepResult } from "./StepResult";
-import { ChevronLeft, ChevronRight, Send } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 
-type Step = 1 | 2 | 3 | 4;
+type Step = "personal" | "flight" | "diagnostic" | "result";
 
 export const FormWizard = () => {
-  const [currentStep, setCurrentStep] = useState<Step>(1);
-  const [result, setResult] = useState<QualificationResult | null>(null);
+  const [currentStep, setCurrentStep] = useState<Step>("personal");
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<LeadFormData>({
-    resolver: zodResolver(leadSchema),
+    resolver: zodResolver(leadFormSchema),
     defaultValues: {
       nome: "",
-      telefone: "",
       email: "",
-      ciaAerea: "",
+      telefone: "",
+      consentimentoLGPD: false,
       problema: "",
+      ciaAerea: "",
       dataVoo: "",
       origem: "",
       destino: "",
-      consentimentoLGPD: false,
-      novoVooDisponibilizado: false,
+      tempoAtraso: "",
+      tempoDevolucaoBagagem: "",
       perdeuConexao: false,
       perdeuCompromisso: false,
       alimentacaoFornecida: false,
@@ -45,120 +50,178 @@ export const FormWizard = () => {
   });
 
   const formData = form.watch();
-
-  // Calcula score em tempo real
-  const liveResult = useMemo(() => {
-    if (currentStep >= 3 && formData.problema && formData.dataVoo) {
-      return qualificar(formData);
+  
+  // Calcula resultado em tempo real
+  const resultado = useMemo(() => {
+    if (!formData.problema || !formData.dataVoo) {
+      return { score: 0, qualificado: false, motivo: "", elegibilidadeDetalhes: [] };
     }
-    return null;
-  }, [formData, currentStep]);
+    return qualificar(formData);
+  }, [formData]);
 
-  const progress = (currentStep / 4) * 100;
+  // Calcula progresso
+  const progress = useMemo(() => {
+    const steps = { personal: 25, flight: 50, diagnostic: 75, result: 100 };
+    return steps[currentStep];
+  }, [currentStep]);
 
-  const validateStep = async (step: Step): Promise<boolean> => {
+  // Navegação entre steps
+  const handleNext = async () => {
     let fieldsToValidate: (keyof LeadFormData)[] = [];
 
-    if (step === 1) {
-      fieldsToValidate = ["nome", "telefone", "email", "consentimentoLGPD"];
-    } else if (step === 2) {
-      fieldsToValidate = ["ciaAerea", "problema", "dataVoo", "origem", "destino"];
+    if (currentStep === "personal") {
+      fieldsToValidate = ["nome", "email", "telefone", "consentimentoLGPD"];
+    } else if (currentStep === "flight") {
+      fieldsToValidate = ["problema", "ciaAerea", "dataVoo", "origem", "destino"];
     }
 
     const isValid = await form.trigger(fieldsToValidate);
-    return isValid;
-  };
 
-  const handleNext = async () => {
-    const isValid = await validateStep(currentStep);
-    
-    if (!isValid) {
+    if (isValid) {
+      if (currentStep === "personal") {
+        setCurrentStep("flight");
+      } else if (currentStep === "flight") {
+        setCurrentStep("diagnostic");
+      } else if (currentStep === "diagnostic") {
+        handleSubmit();
+      }
+    } else {
       toast({
         title: "Campos obrigatórios",
-        description: "Por favor, preencha todos os campos obrigatórios antes de continuar.",
+        description: "Por favor, preencha todos os campos obrigatórios",
         variant: "destructive",
       });
-      return;
-    }
-
-    if (currentStep < 4) {
-      setCurrentStep((prev) => (prev + 1) as Step);
     }
   };
 
-  const handlePrevious = () => {
-    if (currentStep > 1 && currentStep < 4) {
-      setCurrentStep((prev) => (prev - 1) as Step);
+  const handleBack = () => {
+    if (currentStep === "flight") {
+      setCurrentStep("personal");
+    } else if (currentStep === "diagnostic") {
+      setCurrentStep("flight");
+    } else if (currentStep === "result") {
+      setCurrentStep("diagnostic");
     }
   };
 
-  const handleSubmit = form.handleSubmit(async (data) => {
-    const finalResult = qualificar(data);
-    setResult(finalResult);
-    setCurrentStep(4);
+  const handleSubmit = async () => {
+    setIsSubmitting(true);
 
-    // Aqui você enviaria os dados para o Google Sheets via Apps Script
-    // postToSheets({ ...data, ...finalResult, utm: getUTMs() })
+    try {
+      // Envia para Google Sheets
+      const sheetsSent = await enviarParaSheets(formData, resultado);
 
-    toast({
-      title: "Análise concluída!",
-      description: finalResult.qualificado 
-        ? "Seu caso é elegível. Veja o resultado abaixo." 
-        : "Análise finalizada. Veja os detalhes abaixo.",
-    });
-  });
+      if (!sheetsSent) {
+        console.warn("Falha ao enviar para Google Sheets, mas continuando...");
+      }
+
+      // Mostra resultado
+      setCurrentStep("result");
+
+      toast({
+        title: "Análise concluída!",
+        description: resultado.qualificado 
+          ? "Seu caso parece elegível. Veja os detalhes abaixo."
+          : "Análise completa. Veja o resultado abaixo.",
+      });
+
+    } catch (error) {
+      console.error("Erro ao processar:", error);
+      toast({
+        title: "Erro ao processar",
+        description: "Tente novamente ou entre em contato conosco",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
-    <div className="w-full max-w-3xl mx-auto px-4 py-12">
-      {currentStep < 4 && (
+    <div className="max-w-4xl mx-auto px-4 py-12">
+      {/* Progress Bar */}
+      {currentStep !== "result" && (
         <div className="mb-8">
-          <ProgressBar value={progress} />
-          {liveResult && currentStep === 3 && (
-            <div className="mt-4 text-center">
-              <p className="text-sm text-muted-foreground">
-                Pontuação atual: <strong className="text-primary text-lg">{liveResult.score}</strong>
-                {liveResult.qualificado ? (
-                  <span className="ml-2 text-primary">✅ Elegível</span>
-                ) : (
-                  <span className="ml-2 text-muted-foreground">⏳ Em avaliação</span>
-                )}
-              </p>
-            </div>
-          )}
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-sm font-medium text-muted-foreground">
+              {currentStep === "personal" && "Etapa 1 de 3"}
+              {currentStep === "flight" && "Etapa 2 de 3"}
+              {currentStep === "diagnostic" && "Etapa 3 de 3"}
+            </span>
+            
+            {/* Score Preview (apenas no diagnóstico) */}
+            {currentStep === "diagnostic" && formData.problema && (
+              <Badge 
+                variant={resultado.qualificado ? "default" : "secondary"}
+                className="text-sm"
+              >
+                <TrendingUp className="w-4 h-4 mr-1" />
+                {resultado.score} pontos
+              </Badge>
+            )}
+          </div>
+          <Progress value={progress} className="h-2" />
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {currentStep === 1 && <StepPersonalData form={form} />}
-        {currentStep === 2 && <StepFlightData form={form} />}
-        {currentStep === 3 && <StepDiagnostic form={form} />}
-        {currentStep === 4 && result && <StepResult data={formData} result={result} />}
+      {/* Steps */}
+      <div className="mb-8">
+        {currentStep === "personal" && <StepPersonalData form={form} />}
+        {currentStep === "flight" && <StepFlightData form={form} />}
+        {currentStep === "diagnostic" && <StepDiagnostic form={form} />}
+        {currentStep === "result" && <StepResult data={formData} result={resultado} />}
+      </div>
 
-        {currentStep < 4 && (
-          <div className="flex justify-between gap-4">
-            {currentStep > 1 ? (
-              <Button type="button" variant="outline" onClick={handlePrevious} className="w-32">
-                <ChevronLeft className="mr-2 h-4 w-4" />
-                Voltar
-              </Button>
-            ) : (
-              <div />
-            )}
+      {/* Navigation Buttons */}
+      {currentStep !== "result" && (
+        <div className="flex gap-4">
+          {currentStep !== "personal" && (
+            <Button
+              variant="outline"
+              onClick={handleBack}
+              className="flex-1"
+            >
+              <ChevronLeft className="w-4 h-4 mr-2" />
+              Voltar
+            </Button>
+          )}
+          
+          <Button
+            onClick={handleNext}
+            disabled={isSubmitting}
+            className="flex-1"
+          >
+            {currentStep === "diagnostic" 
+              ? (isSubmitting ? "Processando..." : "Ver Resultado")
+              : "Continuar"
+            }
+            {currentStep !== "diagnostic" && <ChevronRight className="w-4 h-4 ml-2" />}
+          </Button>
+        </div>
+      )}
 
-            {currentStep < 3 ? (
-              <Button type="button" onClick={handleNext} className="w-32 ml-auto">
-                Próximo
-                <ChevronRight className="ml-2 h-4 w-4" />
-              </Button>
-            ) : (
-              <Button type="submit" className="w-48 ml-auto bg-primary hover:bg-primary-glow">
-                <Send className="mr-2 h-4 w-4" />
-                Finalizar Análise
-              </Button>
+      {/* Score Indicator (Diagnostic Step) */}
+      {currentStep === "diagnostic" && formData.problema && (
+        <div className="mt-6 p-4 rounded-lg bg-accent border">
+          <div className="flex items-center justify-between">
+            <div>
+              <p className="text-sm font-medium">Score atual: <strong>{resultado.score} pontos</strong></p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {resultado.qualificado 
+                  ? "✅ Seu caso parece elegível"
+                  : "Continue respondendo para aumentar a pontuação"
+                }
+              </p>
+            </div>
+            {resultado.valorEstimado && resultado.qualificado && (
+              <div className="text-right">
+                <p className="text-sm font-semibold text-primary">{resultado.valorEstimado}</p>
+                <p className="text-xs text-muted-foreground">Estimativa</p>
+              </div>
             )}
           </div>
-        )}
-      </form>
+        </div>
+      )}
     </div>
   );
 };
