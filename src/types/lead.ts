@@ -43,4 +43,17 @@ export interface QualificationResult {
   qualificado: boolean;
   motivo: string;
   elegibilidadeDetalhes: string[];
+  valorEstimado?: string; // NOVO: Estimativa de valor (ex: "R$ 3.000 - R$ 5.000")
+}
+
+// Payload para envio ao Google Sheets
+export interface SheetsPayload extends LeadFormData {
+  timestamp: string;
+  score: number;
+  qualificado: boolean;
+  valorEstimado: string;
+  userAgent?: string;
+  utmSource?: string;
+  utmMedium?: string;
+  utmCampaign?: string;
 }
