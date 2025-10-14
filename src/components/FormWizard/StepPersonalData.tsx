@@ -3,6 +3,7 @@ import { LeadFormData } from "@/types/lead";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox"; // Importe o Checkbox de shadcn/ui
 
 interface StepPersonalDataProps {
   form: UseFormReturn<LeadFormData>;
@@ -52,33 +53,42 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
           </div>
 
           <div>
-            <Label htmlFor="whatsapp" className="font-sans text-foreground mb-1 block">WhatsApp *</Label>
+            {/* CORRIGIDO: Label htmlFor e id para "telefone" */}
+            <Label htmlFor="telefone" className="font-sans text-foreground mb-1 block">WhatsApp *</Label>
             <Input
-              id="whatsapp"
+              id="telefone"
               placeholder="(11) 99999-9999"
-              {...register("whatsapp")}
+              // CORRIGIDO: register para "telefone"
+              {...register("telefone")}
               className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.whatsapp ? "border-destructive" : ""
+                // CORRIGIDO: verificação de erro para "telefone"
+                errors.telefone ? "border-destructive" : ""
               }`}
             />
-            {errors.whatsapp && <p className="text-sm text-destructive">{errors.whatsapp.message}</p>}
+            {errors.telefone && <p className="text-sm text-destructive">{errors.telefone.message}</p>}
           </div>
         </div>
 
         <div className="mt-6">
-          <Label className="flex items-center space-x-2 bg-accent/20 p-4 rounded-md">
-            <input
-              type="checkbox"
-              {...register("consentimento")}
-              className="h-5 w-5 text-accent focus:ring-accent border-border rounded"
+          <div className="flex items-start space-x-2 bg-accent/20 p-4 rounded-md">
+            {/* CORRIGIDO: checkbox com o nome "consentimentoLGPD" */}
+            <Checkbox
+              id="consentimentoLGPD"
+              {...register("consentimentoLGPD")}
+              className="mt-1"
             />
-            <span className="font-sans text-sm text-foreground">
-              Concordo com o tratamento dos meus dados pessoais para análise do caso e eventual contato jurídico, conforme a{' '}
-              <a href="#" className="text-primary hover:underline">Política de Privacidade</a> e a LGPD. *
-            </span>
-          </Label>
-          {errors.consentimento && (
-            <p className="text-sm text-destructive mt-1">{errors.consentimento.message}</p>
+            <div className="grid gap-1.5 leading-none">
+              <Label
+                htmlFor="consentimentoLGPD"
+                className="font-sans text-sm text-foreground"
+              >
+                Concordo com o tratamento dos meus dados pessoais para análise do caso e eventual contato jurídico, conforme a{' '}
+                <a href="#" className="text-primary hover:underline">Política de Privacidade</a> e a LGPD. *
+              </Label>
+            </div>
+          </div>
+          {errors.consentimentoLGPD && (
+            <p className="text-sm text-destructive mt-1">{errors.consentimentoLGPD.message}</p>
           )}
         </div>
       </CardContent>
