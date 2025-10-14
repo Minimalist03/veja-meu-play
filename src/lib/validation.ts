@@ -1,8 +1,11 @@
 import { z } from "zod";
 
+// Regex para telefone brasileiro (com ou sem 9º dígito, com ou sem formatação)
 const phoneBR = /^(\(?\d{2}\)?[\s-]?)?(\d{4,5}[\s-]?\d{4})$/;
 
+// Schema de validação completo para o formulário de leads
 export const leadFormSchema = z.object({
+  // ========== DADOS PESSOAIS ==========
   nome: z
     .string()
     .min(3, "Nome deve ter no mínimo 3 caracteres")
@@ -14,19 +17,21 @@ export const leadFormSchema = z.object({
     .email("Email inválido")
     .min(5, "Email muito curto"),
 
-  // CORRIGIDO AQUI
-  whatsapp: z
+  // CORRIGIDO PARA 'telefone'
+  telefone: z
     .string()
+    .min(10, "Telefone inválido.")
     .regex(phoneBR, "Telefone inválido. Use formato: (11) 99999-9999")
     .transform((val) => val.replace(/\D/g, "")),
 
-  consentimento: z
+  // CORRIGIDO PARA 'consentimentoLGPD'
+  consentimentoLGPD: z
     .boolean()
     .refine((val) => val === true, {
       message: "É necessário concordar com os termos da LGPD",
     }),
-  // FIM DA CORREÇÃO
 
+  // ========== DADOS DO VOO ==========
   problema: z.enum(["cancelamento", "atraso", "bagagem_extraviada", "overbooking"], {
     errorMap: () => ({ message: "Selecione o tipo de problema" }),
   }),
@@ -70,6 +75,7 @@ export const leadFormSchema = z.object({
     .min(2, "Destino deve ter no mínimo 2 caracteres")
     .max(100, "Destino muito longo"),
 
+  // ========== DIAGNÓSTICO - VOOS ==========
   tempoAtraso: z.enum(["menos_4h", "mais_4h", "mais_6h", "mais_8h", ""]).optional(),
   novoVooDisponibilizado: z.boolean().optional(),
   perdeuConexao: z.boolean().optional(),
@@ -78,12 +84,15 @@ export const leadFormSchema = z.object({
   hotelFornecido: z.boolean().optional(),
   transporteFornecido: z.boolean().optional(),
 
+  // ========== DIAGNÓSTICO - BAGAGEM ==========
   tempoDevolucaoBagagem: z.enum(["menos_24h", "mais_24h", ""]).optional(),
   itensEssenciais: z.boolean().optional(),
   precisouComprar: z.boolean().optional(),
   despesasExtras: z.boolean().optional(),
 })
+// Validações condicionais
 .superRefine((data, ctx) => {
+  // Se for problema de voo (não bagagem), tempo de atraso é obrigatório
   if (["cancelamento", "atraso", "overbooking"].includes(data.problema)) {
     if (!data.tempoAtraso || data.tempoAtraso === "") {
       ctx.addIssue({
@@ -94,6 +103,7 @@ export const leadFormSchema = z.object({
     }
   }
 
+  // Se for bagagem, tempo de devolução é obrigatório
   if (data.problema === "bagagem_extraviada") {
     if (!data.tempoDevolucaoBagagem || data.tempoDevolucaoBagagem === "") {
       ctx.addIssue({
