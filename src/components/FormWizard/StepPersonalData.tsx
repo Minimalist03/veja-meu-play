@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form"; // 1. Importar componentes de formulário
 
 interface StepPersonalDataProps {
   form: UseFormReturn<LeadFormData>;
@@ -57,36 +58,41 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
             <Input
               id="telefone"
               placeholder="(11) 99999-9999"
-              {...register("telefone")} // CORRIGIDO
+              {...register("telefone")}
               className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.telefone ? "border-destructive" : "" // CORRIGIDO
+                errors.telefone ? "border-destructive" : ""
               }`}
             />
             {errors.telefone && <p className="text-sm text-destructive mt-1">{errors.telefone.message}</p>}
           </div>
         </div>
 
-        <div className="mt-6">
-          <div className="flex items-start space-x-3 bg-accent/20 p-4 rounded-md">
-            <Checkbox
-              id="consentimentoLGPD"
-              {...register("consentimentoLGPD")} // CORRIGIDO
-              className="mt-1"
-            />
-            <div className="grid gap-1.5 leading-none">
-              <Label
-                htmlFor="consentimentoLGPD"
-                className="font-sans text-sm text-foreground cursor-pointer"
-              >
-                Concordo com o tratamento dos meus dados pessoais para análise do caso e eventual contato jurídico, conforme a{' '}
-                <a href="#" className="text-primary hover:underline">Política de Privacidade</a> e a LGPD. *
-              </Label>
-            </div>
-          </div>
-          {errors.consentimentoLGPD && ( // CORRIGIDO
-            <p className="text-sm text-destructive mt-2">{errors.consentimentoLGPD.message}</p>
+        {/* 2. CORREÇÃO DA ESTRUTURA DO CHECKBOX */}
+        <FormField
+          control={form.control}
+          name="consentimentoLGPD"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border bg-accent/20 p-4">
+              <FormControl>
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  id="consentimentoLGPD"
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel htmlFor="consentimentoLGPD" className="font-sans text-sm text-foreground cursor-pointer">
+                  Concordo com o tratamento dos meus dados pessoais para análise do caso e eventual contato jurídico, conforme a{' '}
+                  <a href="#" className="text-primary hover:underline">Política de Privacidade</a> e a LGPD. *
+                </FormLabel>
+              </div>
+            </FormItem>
           )}
-        </div>
+        />
+        {/* A mensagem de erro agora é tratada pelo FormField */}
+        {errors.consentimentoLGPD && (
+            <p className="text-sm text-destructive mt-2">{errors.consentimentoLGPD.message}</p>
+        )}
       </CardContent>
     </Card>
   );
