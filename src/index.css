@@ -19,9 +19,9 @@
   --color-accent:     135 30% 20%;  /* #3A5A40 verde escuro */
 
   /* Semantic */
-  --background:   var(--color-neutral-99);
-  --surface:      var(--color-neutral-85);
-  --surface-dark: var(--color-neutral-75);
+  --background:   hsl(var(--color-neutral-99));
+  --surface:      hsl(var(--color-neutral-85));
+  --surface-dark: hsl(var(--color-neutral-75));
   --foreground:   hsl(var(--color-secondary));
   --accent:       hsl(var(--color-accent));
   --primary:      hsl(var(--color-primary));
@@ -30,13 +30,13 @@
 }
 
 .dark {
-  --background:   var(--color-secondary);
-  --surface:      var(--color-secondary);
-  --surface-dark: var(--color-primary);
-  --foreground:   var(--color-neutral-99);
+  --background:   hsl(var(--color-secondary));
+  --surface:      hsl(var(--color-secondary));
+  --surface-dark: hsl(var(--color-primary));
+  --foreground:   hsl(var(--color-neutral-99));
   --accent:       hsl(var(--color-accent));
-  --primary:      var(--color-neutral-99);
-  --border:       var(--color-neutral-99);
+  --primary:      hsl(var(--color-neutral-99));
+  --border:       hsl(var(--color-neutral-99));
 }
 
 @layer base {
@@ -44,7 +44,8 @@
   *, *::before, *::after { box-sizing: border-box; }
   body {
     @apply bg-background text-foreground font-body antialiased;
-    margin:0; padding:0;
+    margin: 0;
+    padding: 0;
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
