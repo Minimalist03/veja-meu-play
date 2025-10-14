@@ -209,7 +209,7 @@ ${result.valorEstimado ? `• Estimativa: ${result.valorEstimado}` : ""}
 Gostaria de conversar sobre meu caso.`;
 
   // ⚠️ SUBSTITUA PELO NÚMERO REAL DA ADVOGADA
-  const whatsappNumber = "5511987654321";
+  const whatsappNumber = "553199168337";
   
   return `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(mensagem)}`;
 };
