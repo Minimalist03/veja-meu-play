@@ -1,20 +1,16 @@
 import { UseFormReturn } from "react-hook-form";
 import { LeadFormData } from "@/types/lead";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form"; // 1. Importar componentes de formulário
+import { FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 interface StepPersonalDataProps {
-  form: UseFormReturn<LeadFormData>;
+  form: UseFormReturn<LeadFormData>; // Mantemos o 'form' por enquanto para os campos de Input
 }
 
 export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
-  const {
-    register,
-    formState: { errors },
-  } = form;
+  const { register, formState: { errors } } = form;
 
   return (
     <Card className="bg-surface shadow-lg rounded-lg p-8">
@@ -26,48 +22,29 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
-          <div>
-            <Label htmlFor="nome" className="font-sans text-foreground mb-1 block">Nome Completo *</Label>
-            <Input
-              id="nome"
-              placeholder="Digite seu nome completo"
-              {...register("nome")}
-              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.nome ? "border-destructive" : ""
-              }`}
-            />
-            {errors.nome && <p className="text-sm text-destructive mt-1">{errors.nome.message}</p>}
+          {/* Campo Nome */}
+          <div className="space-y-1">
+            <Label htmlFor="nome" className="font-sans text-foreground">Nome Completo *</Label>
+            <Input id="nome" placeholder="Digite seu nome completo" {...register("nome")} />
+            <p className="text-sm font-medium text-destructive">{errors.nome?.message}</p>
           </div>
 
-          <div>
-            <Label htmlFor="email" className="font-sans text-foreground mb-1 block">E-mail *</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="seu@email.com"
-              {...register("email")}
-              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.email ? "border-destructive" : ""
-              }`}
-            />
-            {errors.email && <p className="text-sm text-destructive mt-1">{errors.email.message}</p>}
+          {/* Campo Email */}
+          <div className="space-y-1">
+            <Label htmlFor="email" className="font-sans text-foreground">E-mail *</Label>
+            <Input id="email" type="email" placeholder="seu@email.com" {...register("email")} />
+            <p className="text-sm font-medium text-destructive">{errors.email?.message}</p>
           </div>
 
-          <div>
-            <Label htmlFor="telefone" className="font-sans text-foreground mb-1 block">WhatsApp *</Label>
-            <Input
-              id="telefone"
-              placeholder="(11) 99999-9999"
-              {...register("telefone")}
-              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.telefone ? "border-destructive" : ""
-              }`}
-            />
-            {errors.telefone && <p className="text-sm text-destructive mt-1">{errors.telefone.message}</p>}
+          {/* Campo Telefone */}
+          <div className="space-y-1">
+            <Label htmlFor="telefone" className="font-sans text-foreground">WhatsApp *</Label>
+            <Input id="telefone" placeholder="(11) 99999-9999" {...register("telefone")} />
+            <p className="text-sm font-medium text-destructive">{errors.telefone?.message}</p>
           </div>
         </div>
 
-        {/* 2. CORREÇÃO DA ESTRUTURA DO CHECKBOX */}
+        {/* Campo Consentimento (Usando FormField) */}
         <FormField
           control={form.control}
           name="consentimentoLGPD"
@@ -85,14 +62,11 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
                   Concordo com o tratamento dos meus dados pessoais para análise do caso e eventual contato jurídico, conforme a{' '}
                   <a href="#" className="text-primary hover:underline">Política de Privacidade</a> e a LGPD. *
                 </FormLabel>
+                <FormMessage />
               </div>
             </FormItem>
           )}
         />
-        {/* A mensagem de erro agora é tratada pelo FormField */}
-        {errors.consentimentoLGPD && (
-            <p className="text-sm text-destructive mt-2">{errors.consentimentoLGPD.message}</p>
-        )}
       </CardContent>
     </Card>
   );
