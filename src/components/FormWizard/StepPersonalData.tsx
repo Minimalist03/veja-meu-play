@@ -3,7 +3,7 @@ import { LeadFormData } from "@/types/lead";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox"; // Importe o Checkbox de shadcn/ui
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface StepPersonalDataProps {
   form: UseFormReturn<LeadFormData>;
@@ -53,16 +53,13 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
           </div>
 
           <div>
-            {/* CORRIGIDO: Label htmlFor e id para "telefone" */}
             <Label htmlFor="telefone" className="font-sans text-foreground mb-1 block">WhatsApp *</Label>
             <Input
               id="telefone"
               placeholder="(11) 99999-9999"
-              // CORRIGIDO: register para "telefone"
-              {...register("telefone")}
+              {...register("telefone")} // CORRIGIDO
               className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                // CORRIGIDO: verificação de erro para "telefone"
-                errors.telefone ? "border-destructive" : ""
+                errors.telefone ? "border-destructive" : "" // CORRIGIDO
               }`}
             />
             {errors.telefone && <p className="text-sm text-destructive">{errors.telefone.message}</p>}
@@ -71,10 +68,9 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
 
         <div className="mt-6">
           <div className="flex items-start space-x-2 bg-accent/20 p-4 rounded-md">
-            {/* CORRIGIDO: checkbox com o nome "consentimentoLGPD" */}
             <Checkbox
               id="consentimentoLGPD"
-              {...register("consentimentoLGPD")}
+              {...register("consentimentoLGPD")} // CORRIGIDO
               className="mt-1"
             />
             <div className="grid gap-1.5 leading-none">
@@ -87,7 +83,7 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
               </Label>
             </div>
           </div>
-          {errors.consentimentoLGPD && (
+          {errors.consentimentoLGPD && ( // CORRIGIDO
             <p className="text-sm text-destructive mt-1">{errors.consentimentoLGPD.message}</p>
           )}
         </div>
