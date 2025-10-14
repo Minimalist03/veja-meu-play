@@ -68,6 +68,27 @@ const config: Config = {
           foreground: "var(--muted-foreground)",
         },
 
+        /* ===== POPOVER ===== */
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+
+        /* ===== CARD ===== */
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
+
+        /* ===== DESTRUCTIVE ===== */
+        destructive: {
+          DEFAULT: "var(--destructive)",
+          foreground: "var(--destructive-foreground)",
+        },
+
+        /* ===== RING ===== */
+        ring: "var(--ring)",
+
         /* ===== ESTADOS ===== */
         success: {
           DEFAULT: "var(--success)",
@@ -88,6 +109,7 @@ const config: Config = {
 
         /* ===== INPUTS ===== */
         input: {
+          DEFAULT: "hsl(var(--input-bg))",
           bg: "var(--input-bg)",
           border: "var(--input-border)",
           focus: "var(--input-focus)",

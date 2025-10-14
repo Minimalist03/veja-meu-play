@@ -67,6 +67,21 @@
   --muted: hsl(var(--color-beige-light));
   --muted-foreground: hsl(var(--color-brown-dark));
   
+  /* Popover */
+  --popover: 0 0% 100%;
+  --popover-foreground: hsl(var(--color-brown-darker));
+  
+  /* Card */
+  --card: 0 0% 100%;
+  --card-foreground: hsl(var(--color-brown-darker));
+  
+  /* Destructive */
+  --destructive: hsl(var(--color-error));
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Ring */
+  --ring: hsl(var(--color-caramel));
+  
   /* Estados */
   --success: hsl(var(--color-success));
   --success-foreground: 0 0% 100%;
@@ -81,6 +96,7 @@
   --info-foreground: 0 0% 100%;
   
   /* Inputs */
+  --input: 0 0% 100%;
   --input-bg: 0 0% 100%;
   --input-border: hsl(var(--color-beige-medium));
   --input-focus: hsl(var(--color-caramel));
@@ -126,6 +142,22 @@
   --muted: hsl(var(--color-brown-dark));
   --muted-foreground: hsl(var(--color-beige-medium));
   
+  /* Popover */
+  --popover: hsl(var(--color-brown-dark));
+  --popover-foreground: hsl(var(--color-beige-light));
+  
+  /* Card */
+  --card: hsl(var(--color-brown-dark));
+  --card-foreground: hsl(var(--color-beige-light));
+  
+  /* Destructive */
+  --destructive: hsl(var(--color-error));
+  --destructive-foreground: 0 0% 100%;
+  
+  /* Ring */
+  --ring: hsl(var(--color-beige-medium));
+  
+  --input: hsl(var(--color-brown-dark));
   --input-bg: hsl(var(--color-brown-dark));
   --input-border: hsl(var(--color-caramel));
   --input-disabled: hsl(30 50% 20%);
