@@ -1,56 +1,287 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@tailwind components;
-@tailwind utilities;
 
-/* Design system variables */
+/* ========================================
+   DESIGN SYSTEM - PASSENGER RIGHTS APP
+   ======================================== */
+
 :root {
-  /* Two base colors palette (HSL conversion of #D5C4B2 and #99784D) */
-  --base-light: 31 29% 77%;   /* #D5C4B2 */
-  --base-dark:  34 33% 45%;   /* #99784D */
+  /* ===== NOVA PALETA DE CORES ===== */
+  /* Off-white / Bege muito claro */
+  --color-offwhite: 30 18% 96%;        /* #F8F6F5 */
+  
+  /* Bege claro */
+  --color-beige-light: 30 22% 78%;     /* #D6C7B7 */
+  
+  /* Bege médio / Creme */
+  --color-beige-medium: 30 25% 65%;    /* #BEAA8F */
+  
+  /* Marrom caramelo claro */
+  --color-caramel: 30 30% 44%;         /* #90744F */
+  
+  /* Marrom escuro */
+  --color-brown-dark: 30 50% 23%;      /* #5A3B1E */
+  
+  /* Marrom muito escuro */
+  --color-brown-darker: 30 56% 11%;    /* #29180B */
 
-  /* Semantic tokens using HSL wrappers */
-  --background:          hsl(var(--base-light));
-  --foreground:          hsl(var(--base-dark));
+  /* ===== CORES AUXILIARES (Estados) ===== */
+  --color-success: 145 35% 45%;        /* #4A7C59 - Verde suave */
+  --color-error: 356 43% 58%;          /* #C1666B - Vermelho suave */
+  --color-warning: 36 90% 55%;         /* #F4A261 - Laranja */
+  --color-info: 210 50% 50%;           /* #4A90C1 - Azul */
 
-  --primary:             hsl(var(--base-dark));
-  --primary-foreground:  hsl(var(--base-light));
-
-  --surface:             hsl(var(--base-light));
-  --accent:              hsl(var(--base-dark));
-  --border:              hsl(var(--base-dark));
-  --radius:              0.75rem;
+  /* ===== TOKENS SEMÂNTICOS - LIGHT MODE ===== */
+  --background: hsl(var(--color-offwhite));
+  --foreground: hsl(var(--color-brown-darker));
+  
+  /* Superfícies */
+  --surface: 0 0% 100%;                        /* Branco puro para cards */
+  --surface-elevated: hsl(var(--color-beige-light));
+  --surface-hover: hsl(var(--color-beige-medium));
+  
+  /* Textos */
+  --text-primary: hsl(var(--color-brown-darker));
+  --text-secondary: hsl(var(--color-brown-dark));
+  --text-muted: hsl(var(--color-caramel));
+  
+  /* Cores principais (CTAs e ações) */
+  --primary: hsl(var(--color-caramel));
+  --primary-hover: hsl(var(--color-brown-dark));
+  --primary-foreground: 0 0% 100%;
+  
+  /* Cores de acento (highlights sutis) */
+  --accent: hsl(var(--color-beige-medium));
+  --accent-foreground: hsl(var(--color-brown-darker));
+  --accent-hover: hsl(var(--color-beige-light));
+  
+  /* Bordas */
+  --border: hsl(var(--color-beige-light));
+  --border-input: hsl(var(--color-beige-medium));
+  --border-focus: hsl(var(--color-caramel));
+  
+  /* Estados de UI */
+  --muted: hsl(var(--color-beige-light));
+  --muted-foreground: hsl(var(--color-brown-dark));
+  
+  --success: hsl(var(--color-success));
+  --success-foreground: 0 0% 100%;
+  
+  --error: hsl(var(--color-error));
+  --error-foreground: 0 0% 100%;
+  
+  --warning: hsl(var(--color-warning));
+  --warning-foreground: hsl(var(--color-brown-darker));
+  
+  --info: hsl(var(--color-info));
+  --info-foreground: 0 0% 100%;
+  
+  /* Inputs */
+  --input-bg: 0 0% 100%;
+  --input-border: hsl(var(--color-beige-medium));
+  --input-focus: hsl(var(--color-caramel));
+  --input-disabled: hsl(var(--color-beige-light));
+  
+  /* Outros */
+  --radius: 0.75rem;
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+  --shadow-glow: 0 0 20px hsl(var(--color-caramel) / 0.15);
+  
+  /* Fontes */
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
 }
 
+/* ===== DARK MODE ===== */
 .dark {
-  --background:   hsl(var(--color-secondary));
-  --surface:      hsl(var(--color-secondary));
-  --surface-dark: hsl(var(--color-primary));
-  --foreground:   hsl(var(--color-neutral-99));
-  --accent:       hsl(var(--color-accent));
-  --primary:      hsl(var(--color-neutral-99));
-  --border:       hsl(var(--color-neutral-99));
+  --background: hsl(var(--color-brown-darker));
+  --foreground: hsl(var(--color-offwhite));
+  
+  --surface: hsl(var(--color-brown-dark));
+  --surface-elevated: hsl(var(--color-caramel));
+  --surface-hover: hsl(30 30% 50%);
+  
+  --text-primary: hsl(var(--color-offwhite));
+  --text-secondary: hsl(var(--color-beige-light));
+  --text-muted: hsl(var(--color-beige-medium));
+  
+  --primary: hsl(var(--color-caramel));
+  --primary-hover: hsl(var(--color-beige-medium));
+  --primary-foreground: hsl(var(--color-brown-darker));
+  
+  --accent: hsl(var(--color-brown-dark));
+  --accent-foreground: hsl(var(--color-beige-light));
+  --accent-hover: hsl(30 50% 28%);
+  
+  --border: hsl(var(--color-brown-dark));
+  --border-input: hsl(var(--color-caramel));
+  --border-focus: hsl(var(--color-beige-medium));
+  
+  --muted: hsl(var(--color-brown-dark));
+  --muted-foreground: hsl(var(--color-beige-medium));
+  
+  --input-bg: hsl(var(--color-brown-dark));
+  --input-border: hsl(var(--color-caramel));
+  --input-disabled: hsl(30 50% 20%);
+  
+  --shadow-glow: 0 0 20px hsl(var(--color-caramel) / 0.25);
 }
+
+/* ========================================
+   BASE STYLES
+   ======================================== */
 
 @layer base {
-  /* Global reset */
-  *, *::before, *::after { box-sizing: border-box; }
-  body {
-    @apply bg-background text-foreground font-body antialiased;
-    margin: 0;
-    padding: 0;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-  }
-  input, button, textarea, select {
-    font-family: var(--font-body);
-  }
-  /* Borders */
   * {
     @apply border-border;
+    box-sizing: border-box;
+  }
+  
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+  
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  body {
+    @apply bg-background text-foreground font-body;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+  
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+  }
+  
+  p {
+    color: var(--text-secondary);
+  }
+  
+  a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  a:hover {
+    color: var(--primary-hover);
+  }
+  
+  /* Form elements */
+  input, button, textarea, select {
+    font-family: var(--font-body);
+    font-size: inherit;
+  }
+  
+  button {
+    cursor: pointer;
+  }
+  
+  input:disabled,
+  button:disabled,
+  textarea:disabled,
+  select:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+/* ========================================
+   CUSTOM UTILITIES
+   ======================================== */
+
+@layer utilities {
+  /* Text utilities */
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Focus visible styles */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+  
+  /* Smooth scrolling */
+  .scroll-smooth {
+    scroll-behavior: smooth;
+  }
+  
+  /* Animations */
+  .transition-colors-fast {
+    transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+  }
+  
+  .transition-all-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+
+/* ========================================
+   COMPONENT PATTERNS
+   ======================================== */
+
+@layer components {
+  /* Button base styles */
+  .btn {
+    @apply inline-flex items-center justify-center rounded-lg font-medium transition-colors-fast focus-ring;
+    @apply disabled:pointer-events-none disabled:opacity-50;
+  }
+  
+  .btn-primary {
+    @apply bg-primary text-primary-foreground hover:bg-primary-hover;
+  }
+  
+  .btn-secondary {
+    @apply bg-accent text-accent-foreground hover:bg-accent-hover;
+  }
+  
+  .btn-outline {
+    @apply border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground;
+  }
+  
+  /* Card styles */
+  .card {
+    @apply bg-surface rounded-lg border border-border p-6 shadow-md;
+  }
+  
+  .card-hover {
+    @apply transition-all-smooth hover:shadow-lg hover:border-border-focus;
+  }
+  
+  /* Input styles */
+  .input {
+    @apply w-full rounded-lg border border-input-border bg-input-bg px-4 py-2.5;
+    @apply text-foreground placeholder:text-muted-foreground;
+    @apply focus:border-input-focus focus:outline-none focus:ring-2 focus:ring-input-focus/20;
+    @apply disabled:bg-input-disabled disabled:cursor-not-allowed;
+  }
+  
+  /* Label styles */
+  .label {
+    @apply text-sm font-medium text-text-secondary mb-1.5 block;
+  }
+  
+  /* Progress bar */
+  .progress-bar {
+    @apply h-2 rounded-full bg-muted overflow-hidden;
+  }
+  
+  .progress-fill {
+    @apply h-full bg-primary transition-all duration-300 ease-out;
   }
 }
