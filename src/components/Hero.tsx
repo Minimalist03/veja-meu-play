@@ -34,13 +34,13 @@ export const Hero = ({ onStartClick }: HeroProps) => {
 
           {/* CTA Button */}
           <Button
-            size="lg"
-            onClick={onStartClick}
-            className="mx-auto block bg-primary text-primary-foreground hover:bg-primary-hover text-base md:text-lg px-8 md:px-12 py-6 md:py-7 rounded-full font-bold shadow-glow transition-all duration-300 hover:scale-105 hover:shadow-lg w-full sm:w-auto"
-          >
-            <Scale className="relative top-[-1px] mr-2 h-5 w-5 md:h-6 md:w-6 flex-shrink-0" />
-            <span className="whitespace-normal sm:whitespace-nowrap">Calcular Indenização Grátis</span>
-          </Button>
+  size="lg"
+  onClick={onStartClick}
+  className="..."
+>
+  <Scale className="mr-2 h-5 w-5 md:h-6 md:w-6 flex-shrink-0" />
+  <span className="whitespace-normal sm:whitespace-nowrap">Calcular Indenização Grátis</span>
+</Button>
 
           {/* Trust badges */}
           <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-4 md:gap-6 text-text-muted text-xs md:text-sm px-4">
