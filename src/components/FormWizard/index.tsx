@@ -10,7 +10,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { ChevronLeft, ChevronRight, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { Form } from "@/components/ui/form"; // <-- 1. IMPORTAR O PROVEDOR DE FORMULÁRIO
+import { Form } from "@/components/ui/form";
 
 import { StepPersonalData } from "./StepPersonalData";
 import { StepFlightData } from "./StepFlightData";
@@ -31,20 +31,32 @@ export const FormWizard = () => {
       email: "",
       telefone: "",
       consentimentoLGPD: false,
-      problema: "",
-      ciaAerea: "",
+      problema: undefined, // Usar undefined para placeholders de Select
+      ciaAerea: undefined, // Usar undefined para placeholders de Select
       dataVoo: "",
       origem: "",
       destino: "",
-      tempoAtraso: "",
-      tempoDevolucaoBagagem: "",
-      // ...outros valores padrão
+      tempoAtraso: undefined,
+      tempoDevolucaoBagagem: undefined,
+      perdeuConexao: false,
+      perdeuCompromisso: false,
+      alimentacaoFornecida: false,
+      hotelFornecido: false,
+      transporteFornecido: false,
+      itensEssenciais: false,
+      precisouComprar: false,
+      despesasExtras: false,
     },
   });
 
   const formData = form.watch();
-  
-  const resultado = useMemo(() => qualificar(formData), [formData]);
+
+  const resultado = useMemo(() => {
+    if (!formData.problema || !formData.dataVoo) {
+      return { score: 0, qualificado: false, motivo: "", elegibilidadeDetalhes: [] };
+    }
+    return qualificar(formData);
+  }, [formData]);
 
   const progress = useMemo(() => {
     const steps = { personal: 25, flight: 50, diagnostic: 75, result: 100 };
@@ -65,7 +77,7 @@ export const FormWizard = () => {
     if (isValid) {
       if (currentStep === "personal") setCurrentStep("flight");
       else if (currentStep === "flight") setCurrentStep("diagnostic");
-      else if (currentStep === "diagnostic") handleSubmit();
+      else if (currentStep === "diagnostic") await handleSubmit();
     } else {
       toast({
         title: "Campos obrigatórios",
@@ -81,16 +93,54 @@ export const FormWizard = () => {
   };
 
   const handleSubmit = async () => {
-    // A lógica de submit permanece a mesma
+    setIsSubmitting(true);
+    try {
+      const finalResult = qualificar(form.getValues());
+      const sheetsSent = await enviarParaSheets(form.getValues(), finalResult);
+
+      if (!sheetsSent) {
+        console.warn("Falha ao enviar para Google Sheets, mas continuando...");
+      }
+      
+      setCurrentStep("result");
+
+      toast({
+        title: "Análise concluída!",
+        description: finalResult.qualificado 
+          ? "Seu caso parece elegível. Veja os detalhes abaixo."
+          : "Análise completa. Veja o resultado abaixo.",
+      });
+    } catch (error) {
+      console.error("Erro ao processar:", error);
+      toast({
+        title: "Erro ao processar",
+        description: "Tente novamente ou entre em contato conosco.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      {/* 2. ENVOLVER TODO O FORMULÁRIO COM O PROVEDOR <Form> */}
       <Form {...form}>
         {currentStep !== "result" && (
           <div className="mb-8">
-            {/* Barra de progresso... */}
+            <div className="flex justify-between items-center mb-3">
+              <span className="text-sm font-medium text-muted-foreground">
+                {currentStep === "personal" && "Etapa 1 de 3"}
+                {currentStep === "flight" && "Etapa 2 de 3"}
+                {currentStep === "diagnostic" && "Etapa 3 de 3"}
+              </span>
+              {currentStep === "diagnostic" && formData.problema && (
+                <Badge variant={resultado.qualificado ? "default" : "secondary"} className="text-sm">
+                  <TrendingUp className="w-4 h-4 mr-1" />
+                  {resultado.score} pontos
+                </Badge>
+              )}
+            </div>
+            <Progress value={progress} className="h-2" />
           </div>
         )}
 
@@ -101,7 +151,7 @@ export const FormWizard = () => {
           {currentStep === "result" && <StepResult data={formData} result={resultado} />}
 
           {currentStep !== "result" && (
-            <div className="flex gap-4">
+            <div className="flex gap-4 pt-8">
               {currentStep !== "personal" && (
                 <Button variant="outline" onClick={handleBack} className="flex-1">
                   <ChevronLeft className="w-4 h-4 mr-2" />
