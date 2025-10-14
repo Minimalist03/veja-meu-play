@@ -1,12 +1,13 @@
 import { UseFormReturn } from "react-hook-form";
 import { LeadFormData } from "@/types/lead";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormField, FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 interface StepPersonalDataProps {
-  form: UseFormReturn<LeadFormData>; // Mantemos o 'form' por enquanto para os campos de Input
+  form: UseFormReturn<LeadFormData>;
 }
 
 export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
@@ -22,34 +23,30 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
-          {/* Campo Nome */}
           <div className="space-y-1">
             <Label htmlFor="nome" className="font-sans text-foreground">Nome Completo *</Label>
             <Input id="nome" placeholder="Digite seu nome completo" {...register("nome")} />
-            <p className="text-sm font-medium text-destructive">{errors.nome?.message}</p>
+            {errors.nome && <p className="text-sm font-medium text-destructive pt-1">{errors.nome.message}</p>}
           </div>
 
-          {/* Campo Email */}
           <div className="space-y-1">
             <Label htmlFor="email" className="font-sans text-foreground">E-mail *</Label>
             <Input id="email" type="email" placeholder="seu@email.com" {...register("email")} />
-            <p className="text-sm font-medium text-destructive">{errors.email?.message}</p>
+            {errors.email && <p className="text-sm font-medium text-destructive pt-1">{errors.email.message}</p>}
           </div>
 
-          {/* Campo Telefone */}
           <div className="space-y-1">
             <Label htmlFor="telefone" className="font-sans text-foreground">WhatsApp *</Label>
             <Input id="telefone" placeholder="(11) 99999-9999" {...register("telefone")} />
-            <p className="text-sm font-medium text-destructive">{errors.telefone?.message}</p>
+            {errors.telefone && <p className="text-sm font-medium text-destructive pt-1">{errors.telefone.message}</p>}
           </div>
         </div>
 
-        {/* Campo Consentimento (Usando FormField) */}
         <FormField
           control={form.control}
           name="consentimentoLGPD"
           render={({ field }) => (
-            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border bg-accent/20 p-4">
+            <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border bg-accent/20 p-4 mt-6">
               <FormControl>
                 <Checkbox
                   checked={field.value}
