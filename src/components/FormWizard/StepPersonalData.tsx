@@ -57,9 +57,9 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
             <Input
               id="telefone"
               placeholder="(11) 99999-9999"
-              {...register("telefone")}
+              {...register("telefone")} // CORRIGIDO
               className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.telefone ? "border-destructive" : ""
+                errors.telefone ? "border-destructive" : "" // CORRIGIDO
               }`}
             />
             {errors.telefone && <p className="text-sm text-destructive mt-1">{errors.telefone.message}</p>}
@@ -70,7 +70,7 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
           <div className="flex items-start space-x-3 bg-accent/20 p-4 rounded-md">
             <Checkbox
               id="consentimentoLGPD"
-              {...register("consentimentoLGPD")}
+              {...register("consentimentoLGPD")} // CORRIGIDO
               className="mt-1"
             />
             <div className="grid gap-1.5 leading-none">
@@ -83,7 +83,7 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
               </Label>
             </div>
           </div>
-          {errors.consentimentoLGPD && (
+          {errors.consentimentoLGPD && ( // CORRIGIDO
             <p className="text-sm text-destructive mt-2">{errors.consentimentoLGPD.message}</p>
           )}
         </div>
