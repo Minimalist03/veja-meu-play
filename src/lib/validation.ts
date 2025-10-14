@@ -76,7 +76,7 @@ export const leadFormSchema = z.object({
     .max(100, "Destino muito longo"),
 
   // ========== DIAGNÓSTICO - VOOS ==========
-  tempoAtraso: z.enum(["menos_4h", "mais_4h", "mais_6h", "mais_8h", ""]).optional(),
+  tempoAtraso: z.enum(["menos_4h", "mais_4h", "mais_6h", "mais_8h"]).optional(),
   novoVooDisponibilizado: z.boolean().optional(),
   perdeuConexao: z.boolean().optional(),
   perdeuCompromisso: z.boolean().optional(),
@@ -85,7 +85,7 @@ export const leadFormSchema = z.object({
   transporteFornecido: z.boolean().optional(),
 
   // ========== DIAGNÓSTICO - BAGAGEM ==========
-  tempoDevolucaoBagagem: z.enum(["menos_24h", "mais_24h", ""]).optional(),
+  tempoDevolucaoBagagem: z.enum(["menos_24h", "mais_24h"]).optional(),
   itensEssenciais: z.boolean().optional(),
   precisouComprar: z.boolean().optional(),
   despesasExtras: z.boolean().optional(),
@@ -94,7 +94,7 @@ export const leadFormSchema = z.object({
 .superRefine((data, ctx) => {
   // Se for problema de voo (não bagagem), tempo de atraso é obrigatório
   if (["cancelamento", "atraso", "overbooking"].includes(data.problema)) {
-    if (!data.tempoAtraso || data.tempoAtraso === "") {
+    if (!data.tempoAtraso) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Informe quanto tempo depois você chegou ao destino",
@@ -105,7 +105,7 @@ export const leadFormSchema = z.object({
 
   // Se for bagagem, tempo de devolução é obrigatório
   if (data.problema === "bagagem_extraviada") {
-    if (!data.tempoDevolucaoBagagem || data.tempoDevolucaoBagagem === "") {
+    if (!data.tempoDevolucaoBagagem) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: "Informe quando a bagagem foi devolvida",
