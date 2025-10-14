@@ -2,7 +2,7 @@ import { useState, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LeadFormData, QualificationResult } from "@/types/lead";
-import { leadFormSchema } from "@/lib/validation"; // CORRIGIDO: usar arquivo existente
+import { leadFormSchema } from "@/lib/validation";
 import { qualificar } from "@/lib/qualification";
 import { enviarParaSheets } from "@/services/sheets";
 import { Button } from "@/components/ui/button";
@@ -28,8 +28,10 @@ export const FormWizard = () => {
     defaultValues: {
       nome: "",
       email: "",
-      telefone: "",
-      consentimentoLGPD: false,
+      // CORRIGIDO AQUI
+      whatsapp: "", 
+      consentimento: false,
+      // FIM DA CORREÇÃO
       problema: "",
       ciaAerea: "",
       dataVoo: "",
@@ -50,7 +52,6 @@ export const FormWizard = () => {
 
   const formData = form.watch();
   
-  // Calcula resultado em tempo real
   const resultado = useMemo(() => {
     if (!formData.problema || !formData.dataVoo) {
       return { score: 0, qualificado: false, motivo: "", elegibilidadeDetalhes: [] };
@@ -58,18 +59,18 @@ export const FormWizard = () => {
     return qualificar(formData);
   }, [formData]);
 
-  // Calcula progresso
   const progress = useMemo(() => {
     const steps = { personal: 25, flight: 50, diagnostic: 75, result: 100 };
     return steps[currentStep];
   }, [currentStep]);
 
-  // Navegação entre steps
   const handleNext = async () => {
     let fieldsToValidate: (keyof LeadFormData)[] = [];
 
     if (currentStep === "personal") {
-      fieldsToValidate = ["nome", "email", "telefone", "consentimentoLGPD"];
+      // CORRIGIDO AQUI
+      fieldsToValidate = ["nome", "email", "whatsapp", "consentimento"];
+      // FIM DA CORREÇÃO
     } else if (currentStep === "flight") {
       fieldsToValidate = ["problema", "ciaAerea", "dataVoo", "origem", "destino"];
     }
@@ -105,25 +106,18 @@ export const FormWizard = () => {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-
     try {
-      // Envia para Google Sheets
       const sheetsSent = await enviarParaSheets(formData, resultado);
-
       if (!sheetsSent) {
         console.warn("Falha ao enviar para Google Sheets, mas continuando...");
       }
-
-      // Mostra resultado
       setCurrentStep("result");
-
       toast({
         title: "Análise concluída!",
         description: resultado.qualificado 
           ? "Seu caso parece elegível. Veja os detalhes abaixo."
           : "Análise completa. Veja o resultado abaixo.",
       });
-
     } catch (error) {
       console.error("Erro ao processar:", error);
       toast({
@@ -138,7 +132,6 @@ export const FormWizard = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-12">
-      {/* Progress Bar */}
       {currentStep !== "result" && (
         <div className="mb-8">
           <div className="flex justify-between items-center mb-3">
@@ -147,8 +140,6 @@ export const FormWizard = () => {
               {currentStep === "flight" && "Etapa 2 de 3"}
               {currentStep === "diagnostic" && "Etapa 3 de 3"}
             </span>
-            
-            {/* Score Preview (apenas no diagnóstico) */}
             {currentStep === "diagnostic" && formData.problema && (
               <Badge 
                 variant={resultado.qualificado ? "default" : "secondary"}
@@ -163,7 +154,6 @@ export const FormWizard = () => {
         </div>
       )}
 
-      {/* Steps */}
       <div className="mb-8">
         {currentStep === "personal" && <StepPersonalData form={form} />}
         {currentStep === "flight" && <StepFlightData form={form} />}
@@ -171,7 +161,6 @@ export const FormWizard = () => {
         {currentStep === "result" && <StepResult data={formData} result={resultado} />}
       </div>
 
-      {/* Navigation Buttons */}
       {currentStep !== "result" && (
         <div className="flex gap-4">
           {currentStep !== "personal" && (
@@ -199,7 +188,6 @@ export const FormWizard = () => {
         </div>
       )}
 
-      {/* Score Indicator (Diagnostic Step) */}
       {currentStep === "diagnostic" && formData.problema && (
         <div className="mt-6 p-4 rounded-lg bg-accent border">
           <div className="flex items-center justify-between">
