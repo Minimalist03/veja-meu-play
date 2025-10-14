@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap');
 
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -11,14 +13,14 @@
   --font-body: 'Inter', sans-serif;
 
   /* Core palette */
-  --color-primary:    30 45% 48%;   /* #90744F caramelo */
-  --color-secondary:  30 50% 20%;   /* #5A3B1E marrom escuro */
-  --color-neutral-99: 35 10% 98%;   /* #F8F6F5 off-white */
-  --color-neutral-85: 35 25% 80%;   /* #D6C7B7 bege claro */
-  --color-neutral-75: 35 30% 75%;   /* #BEAA8F bege médio */
-  --color-accent:     135 30% 20%;  /* #3A5A40 verde escuro */
+  --color-primary:    30 45% 48%;   /* #90744F */
+  --color-secondary:  30 50% 20%;   /* #5A3B1E */
+  --color-neutral-99: 35 10% 98%;   /* #F8F6F5 */
+  --color-neutral-85: 35 25% 80%;   /* #D6C7B7 */
+  --color-neutral-75: 35 30% 75%;   /* #BEAA8F */
+  --color-accent:     135 30% 20%;  /* #3A5A40 */
 
-  /* Semantic */
+  /* Semantic tokens using HSL wrappers */
   --background:   hsl(var(--color-neutral-99));
   --surface:      hsl(var(--color-neutral-85));
   --surface-dark: hsl(var(--color-neutral-75));
@@ -52,5 +54,9 @@
   }
   input, button, textarea, select {
     font-family: var(--font-body);
+  }
+  /* Borders */
+  * {
+    @apply border-border;
   }
 }
