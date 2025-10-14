@@ -8,27 +8,21 @@
 
 /* Design system variables */
 :root {
-  /* Fonts */
-  --font-heading: 'Playfair Display', serif;
-  --font-body: 'Inter', sans-serif;
-
-  /* Core palette */
-  --color-primary:    30 45% 48%;   /* #90744F */
-  --color-secondary:  30 50% 20%;   /* #5A3B1E */
-  --color-neutral-99: 35 10% 98%;   /* #F8F6F5 */
-  --color-neutral-85: 35 25% 80%;   /* #D6C7B7 */
-  --color-neutral-75: 35 30% 75%;   /* #BEAA8F */
-  --color-accent:     135 30% 20%;  /* #3A5A40 */
+  /* Two base colors palette (HSL conversion of #D5C4B2 and #99784D) */
+  --base-light: 31 29% 77%;   /* #D5C4B2 */
+  --base-dark:  34 33% 45%;   /* #99784D */
 
   /* Semantic tokens using HSL wrappers */
-  --background:   hsl(var(--color-neutral-99));
-  --surface:      hsl(var(--color-neutral-85));
-  --surface-dark: hsl(var(--color-neutral-75));
-  --foreground:   hsl(var(--color-secondary));
-  --accent:       hsl(var(--color-accent));
-  --primary:      hsl(var(--color-primary));
-  --border:       hsl(var(--color-secondary));
-  --radius:       0.5rem;
+  --background:          hsl(var(--base-light));
+  --foreground:          hsl(var(--base-dark));
+
+  --primary:             hsl(var(--base-dark));
+  --primary-foreground:  hsl(var(--base-light));
+
+  --surface:             hsl(var(--base-light));
+  --accent:              hsl(var(--base-dark));
+  --border:              hsl(var(--base-dark));
+  --radius:              0.75rem;
 }
 
 .dark {
