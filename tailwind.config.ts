@@ -11,9 +11,9 @@ const config: Config = {
   prefix: "",
   theme: {
     fontFamily: {
-+     body: ['var(--font-body)'],
-+     heading: ['var(--font-heading)'],
-+   },
+    body: ['var(--font-body)'],
+    heading: ['var(--font-heading)'],
+   },
     container: {
       center: true,
       padding: "2rem",
