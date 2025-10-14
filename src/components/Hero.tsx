@@ -63,7 +63,7 @@ export const Hero = ({ onStartClick }: HeroProps) => {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12 px-4">
           {[
             { icon: <TrendingUp className="h-6 w-6 md:h-8 md:w-8 text-primary" />, value: "95%", label: "Taxa de sucesso" },
-            { icon: <Clock className="h-6 w-6 md:h-8 md:w-8 text-info" />, value: "45 dias", label: "Tempo médio" },
+            { icon: <Clock className="h-6 w-6 md:h-8 md:w-8 text-info" />, value: "90 dias", label: "Tempo médio" },
             { icon: <Award className="h-6 w-6 md:h-8 md:w-8 text-warning" />, value: "R$ 6.200", label: "Indenização média" },
           ].map((item, i) => (
             <Card
