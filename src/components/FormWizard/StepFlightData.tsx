@@ -2,41 +2,76 @@ import { UseFormReturn } from "react-hook-form";
 import { LeadFormData, Airline, ProblemType } from "@/types/lead";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 interface StepFlightDataProps {
   form: UseFormReturn<LeadFormData>;
 }
 
-const airlines: Airline[] = ["Azul", "Latam", "Gol", "Voepass", "American Airlines", "Air France", "Iberia", "TAP"];
+const airlines: Airline[] = [
+  "Azul",
+  "Latam",
+  "Gol",
+  "Voepass",
+  "American Airlines",
+  "Air France",
+  "Iberia",
+  "TAP",
+];
 
 const problems: { value: ProblemType; label: string }[] = [
   { value: "cancelamento", label: "Voo Cancelado" },
-  { value: "atraso", label: "Atraso de Voo" },
+  { value: "atraso", label: "Atraso de Voo (>4h)" },
   { value: "bagagem_extraviada", label: "Bagagem Extraviada" },
-  { value: "overbooking", label: "Overbooking (Preterição de Embarque)" },
+  { value: "overbooking", label: "Overbooking" },
 ];
 
 export const StepFlightData = ({ form }: StepFlightDataProps) => {
-  const { register, formState: { errors }, setValue, watch } = form;
+  const {
+    register,
+    formState: { errors },
+    setValue,
+    watch,
+  } = form;
 
   return (
-    <Card className="border-2 shadow-elegant">
+    <Card className="bg-surface shadow-lg rounded-lg p-6">
       <CardHeader>
-        <CardTitle className="text-2xl">Dados do Voo</CardTitle>
-        <CardDescription>
+        <CardTitle className="font-serif text-2xl text-foreground mb-1">
+          Dados do Voo
+        </CardTitle>
+        <CardDescription className="font-sans text-base text-muted-foreground">
           Informe os detalhes do voo que teve problemas.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
+        {/* Problema */}
         <div className="space-y-2">
-          <Label htmlFor="problema">Qual foi o problema? *</Label>
-          <Select 
-            value={watch("problema")} 
+          <Label htmlFor="problema" className="font-sans text-foreground">
+            Qual foi o problema? *
+          </Label>
+          <Select
+            value={watch("problema")}
             onValueChange={(value) => setValue("problema", value as ProblemType)}
           >
-            <SelectTrigger className={errors.problema ? "border-destructive" : ""}>
+            <SelectTrigger
+              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:ring-2 focus:ring-accent ${
+                errors.problema ? "border-destructive" : ""
+              }`}
+            >
               <SelectValue placeholder="Selecione o tipo de problema" />
             </SelectTrigger>
             <SelectContent>
@@ -52,13 +87,20 @@ export const StepFlightData = ({ form }: StepFlightDataProps) => {
           )}
         </div>
 
+        {/* Companhia */}
         <div className="space-y-2">
-          <Label htmlFor="ciaAerea">Companhia Aérea *</Label>
-          <Select 
-            value={watch("ciaAerea")} 
+          <Label htmlFor="ciaAerea" className="font-sans text-foreground">
+            Companhia Aérea *
+          </Label>
+          <Select
+            value={watch("ciaAerea")}
             onValueChange={(value) => setValue("ciaAerea", value as Airline)}
           >
-            <SelectTrigger className={errors.ciaAerea ? "border-destructive" : ""}>
+            <SelectTrigger
+              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:ring-2 focus:ring-accent ${
+                errors.ciaAerea ? "border-destructive" : ""
+              }`}
+            >
               <SelectValue placeholder="Selecione a companhia aérea" />
             </SelectTrigger>
             <SelectContent>
@@ -74,15 +116,20 @@ export const StepFlightData = ({ form }: StepFlightDataProps) => {
           )}
         </div>
 
+        {/* Datas e locais */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
-            <Label htmlFor="dataVoo">Data do Voo *</Label>
+            <Label htmlFor="dataVoo" className="font-sans text-foreground">
+              Data do Voo *
+            </Label>
             <Input
               id="dataVoo"
               type="date"
               {...register("dataVoo")}
-              max={new Date().toISOString().split('T')[0]}
-              className={errors.dataVoo ? "border-destructive" : ""}
+              max={new Date().toISOString().split("T")[0]}
+              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
+                errors.dataVoo ? "border-destructive" : ""
+              }`}
             />
             {errors.dataVoo && (
               <p className="text-sm text-destructive">{errors.dataVoo.message}</p>
@@ -90,12 +137,16 @@ export const StepFlightData = ({ form }: StepFlightDataProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="origem">Origem *</Label>
+            <Label htmlFor="origem" className="font-sans text-foreground">
+              Origem *
+            </Label>
             <Input
               id="origem"
               {...register("origem")}
               placeholder="Ex: São Paulo (GRU)"
-              className={errors.origem ? "border-destructive" : ""}
+              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
+                errors.origem ? "border-destructive" : ""
+              }`}
             />
             {errors.origem && (
               <p className="text-sm text-destructive">{errors.origem.message}</p>
@@ -103,12 +154,16 @@ export const StepFlightData = ({ form }: StepFlightDataProps) => {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="destino">Destino *</Label>
+            <Label htmlFor="destino" className="font-sans text-foreground">
+              Destino *
+            </Label>
             <Input
               id="destino"
               {...register("destino")}
               placeholder="Ex: Rio de Janeiro (GIG)"
-              className={errors.destino ? "border-destructive" : ""}
+              className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
+                errors.destino ? "border-destructive" : ""
+              }`}
             />
             {errors.destino && (
               <p className="text-sm text-destructive">{errors.destino.message}</p>
