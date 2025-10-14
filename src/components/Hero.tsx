@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Plane, Scale, CheckCircle2, Award, TrendingUp, Clock } from "lucide-react";
+import { Plane, Scale, CheckCircle2, Award, TrendingUp, Clock, ShieldCheck } from "lucide-react";
 
 interface HeroProps {
   onStartClick: () => void;
@@ -21,44 +20,40 @@ export const Hero = ({ onStartClick }: HeroProps) => {
             <span className="text-xs md:text-sm font-medium text-text-secondary">+1.247 passageiros atendidos • 4.9/5 no Google</span>
           </div>
 
-          {/* Headline */}
+          {/* Headline (Revisada) */}
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold text-text-primary mb-4 md:mb-6 leading-tight px-2 font-heading">
-            Seu Voo Atrasou,<br />
-            Foi Cancelado ou<br />
-            <span className="text-primary">Sua bagagem foi extraviada?</span>
+            Voo Atrasado ou Cancelado? <br />
+            <span className="text-primary">Exija sua indenização.</span>
           </h1>
 
-          {/* Subtitle */}
-          <p className="text-lg sm:text-xl md:text-2xl text-text-secondary mb-3 md:mb-4 max-w-3xl mx-auto px-4">
-            Você pode ter direito a uma indenização de <strong className="text-primary whitespace-nowrap">R$ 3.000 a R$ 10.000</strong>
+          {/* Subtitle (Revisada) */}
+          <p className="text-lg sm:text-xl md:text-2xl text-text-secondary mb-8 md:mb-12 max-w-3xl mx-auto px-4">
+            Você pode receber de <strong className="text-primary whitespace-nowrap">R$ 3.000 a R$ 10.000</strong>.
+            Nossa avaliação é gratuita, online e leva menos de 1 minuto.
           </p>
 
-          <p className="text-base md:text-lg text-text-muted mb-8 md:mb-12 max-w-2xl mx-auto px-4">
-            Descubra em 60 segundos se seu caso é elegível. Responda nosso diagnóstico rápido e gratuito.
-          </p>
-
-          {/* CTA Button */}
+          {/* CTA Button (Texto Revisado) */}
           <Button
-  size="lg"
-  onClick={onStartClick}
-  className="..."
->
-  <Scale className="mr-2 h-5 w-5 md:h-6 md:w-6 flex-shrink-0" />
-  <span className="whitespace-normal sm:whitespace-nowrap">Calcular Indenização Grátis</span>
-</Button>
+            size="lg"
+            onClick={onStartClick}
+            className="mx-auto block bg-primary text-primary-foreground hover:bg-primary-hover text-base md:text-lg px-8 md:px-12 py-6 md:py-7 rounded-full font-bold shadow-glow transition-all duration-300 hover:scale-105 hover:shadow-lg w-full sm:w-auto"
+          >
+            <Scale className="mr-2 h-5 w-5 md:h-6 md:w-6 flex-shrink-0" />
+            <span className="whitespace-normal sm:whitespace-nowrap">Calcular Indenização Grátis</span>
+          </Button>
 
-          {/* Trust badges */}
+          {/* Trust badges (Ícones Revisados) */}
           <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-4 md:gap-6 text-text-muted text-xs md:text-sm px-4">
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5 text-success flex-shrink-0" />
               <span>Sem custos iniciais</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5 text-success flex-shrink-0" />
+              <Award className="h-4 w-4 md:h-5 md:w-5 text-success flex-shrink-0" />
               <span>Só paga se ganhar</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5 text-success flex-shrink-0" />
+              <ShieldCheck className="h-4 w-4 md:h-5 md:w-5 text-success flex-shrink-0" />
               <span>100% online e seguro</span>
             </div>
           </div>
@@ -108,6 +103,15 @@ export const Hero = ({ onStartClick }: HeroProps) => {
         </div>
 
         {/* Social Proof */}
+        <div className="mt-8 md:mt-12 flex flex-wrap items-center justify-center gap-4 md:gap-8 text-text-muted text-xs md:text-sm px-4">
+          <div className="flex items-center gap-2">
+            <Plane className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+            <span>Especialistas em Direito Aeronáutico</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Scale className="h-4 w-4 md:h-5 md:w-5 text-primary" />
+            <span>OAB/SP 123.456</span>
+          </div>
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5 text-success" />
             <span>Conformidade LGPD</span>
