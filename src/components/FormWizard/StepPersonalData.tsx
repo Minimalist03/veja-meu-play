@@ -35,7 +35,7 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
                 errors.nome ? "border-destructive" : ""
               }`}
             />
-            {errors.nome && <p className="text-sm text-destructive">{errors.nome.message}</p>}
+            {errors.nome && <p className="text-sm text-destructive mt-1">{errors.nome.message}</p>}
           </div>
 
           <div>
@@ -49,7 +49,7 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
                 errors.email ? "border-destructive" : ""
               }`}
             />
-            {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
+            {errors.email && <p className="text-sm text-destructive mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
@@ -57,34 +57,34 @@ export const StepPersonalData = ({ form }: StepPersonalDataProps) => {
             <Input
               id="telefone"
               placeholder="(11) 99999-9999"
-              {...register("telefone")} // CORRIGIDO
+              {...register("telefone")}
               className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
-                errors.telefone ? "border-destructive" : "" // CORRIGIDO
+                errors.telefone ? "border-destructive" : ""
               }`}
             />
-            {errors.telefone && <p className="text-sm text-destructive">{errors.telefone.message}</p>}
+            {errors.telefone && <p className="text-sm text-destructive mt-1">{errors.telefone.message}</p>}
           </div>
         </div>
 
         <div className="mt-6">
-          <div className="flex items-start space-x-2 bg-accent/20 p-4 rounded-md">
+          <div className="flex items-start space-x-3 bg-accent/20 p-4 rounded-md">
             <Checkbox
               id="consentimentoLGPD"
-              {...register("consentimentoLGPD")} // CORRIGIDO
+              {...register("consentimentoLGPD")}
               className="mt-1"
             />
             <div className="grid gap-1.5 leading-none">
               <Label
                 htmlFor="consentimentoLGPD"
-                className="font-sans text-sm text-foreground"
+                className="font-sans text-sm text-foreground cursor-pointer"
               >
                 Concordo com o tratamento dos meus dados pessoais para análise do caso e eventual contato jurídico, conforme a{' '}
                 <a href="#" className="text-primary hover:underline">Política de Privacidade</a> e a LGPD. *
               </Label>
             </div>
           </div>
-          {errors.consentimentoLGPD && ( // CORRIGIDO
-            <p className="text-sm text-destructive mt-1">{errors.consentimentoLGPD.message}</p>
+          {errors.consentimentoLGPD && (
+            <p className="text-sm text-destructive mt-2">{errors.consentimentoLGPD.message}</p>
           )}
         </div>
       </CardContent>
