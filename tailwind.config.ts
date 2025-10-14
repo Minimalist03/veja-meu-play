@@ -27,7 +27,11 @@ const config: Config = {
         brownDark:     "hsl(var(--brown-dark))",
         brownDarker:   "hsl(var(--brown-darker))",
 
-        /* Semantic color tokens */
+        /* New semantic tokens */
+        surface:       "hsl(var(--surface))",
+        accent:        { DEFAULT: "hsl(var(--accent))", foreground: "hsl(var(--accent-foreground))" },
+
+        /* Existing semantic tokens */
         background:    "hsl(var(--background))",
         foreground:    "hsl(var(--foreground))",
         card: {
@@ -49,10 +53,6 @@ const config: Config = {
         muted: {
           DEFAULT:    "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT:    "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
         },
         destructive: {
           DEFAULT:    "hsl(var(--destructive))",
@@ -90,6 +90,9 @@ const config: Config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      boxShadow: {
+        glow: "var(--shadow-glow)",
       },
     },
   },
