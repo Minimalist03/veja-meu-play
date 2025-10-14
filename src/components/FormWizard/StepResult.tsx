@@ -83,7 +83,7 @@ export const StepResult = ({ data, result }: StepResultProps) => {
           <div className="pt-4">
             <Button 
               size="lg" 
-              className="w-full bg-secondary text-primary hover:bg-secondary/90 font-bold py-6 text-lg"
+              className="w-full font-bold py-6 text-lg"
               onClick={handleWhatsAppClick}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
