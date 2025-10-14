@@ -1,99 +1,91 @@
-import type { Config } from "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-const config: Config = {
-  darkMode: ["class"],
-  content: [
-    "./pages/**/*.{ts,tsx}",
-    "./components/**/*.{ts,tsx}",
-    "./app/**/*.{ts,tsx}",
-    "./src/**/*.{ts,tsx}",
-  ],
-  prefix: "",
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-    extend: {
-      colors: {
-        /* Core earthy palette tokens */
-        offwhite:      "hsl(var(--offwhite))",
-        beigeLight:    "hsl(var(--beige-light))",
-        beigeMid:      "hsl(var(--beige-mid))",
-        caramel:       "hsl(var(--caramel))",
-        brownDark:     "hsl(var(--brown-dark))",
-        brownDarker:   "hsl(var(--brown-darker))",
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+   All colors MUST be HSL.
+*/
 
-        /* Semantic color tokens */
-        background:    "hsl(var(--background))",
-        foreground:    "hsl(var(--foreground))",
-        card: {
-          DEFAULT:    "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT:    "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT:    "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT:    "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT:    "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT:    "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT:    "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border:        "hsl(var(--border))",
-        input:         "hsl(var(--input))",
-        ring:          "hsl(var(--ring))",
-        sidebar: {
-          DEFAULT:    "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary:    "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent:     "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border:     "hsl(var(--sidebar-border))",
-          ring:       "hsl(var(--sidebar-ring))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      keyframes: {
-        "accordion-down": {
-          from: { height: "0" },
-          to: { height: "var(--radix-accordion-content-height)" },
-        },
-        "accordion-up": {
-          from: { height: "var(--radix-accordion-content-height)" },
-          to: { height: "0" },
-        },
-      },
-      animation: {
-        "accordion-down": "accordion-down 0.2s ease-out",
-        "accordion-up": "accordion-up 0.2s ease-out",
-      },
-    },
-  },
-  plugins: [require("tailwindcss-animate")],
-};
+:root {
+  /* Earthy palette defined in HSL */
+  --offwhite:          35 10% 98%;   /* #F8F6F5 */
+  --beige-light:       35 25% 80%;   /* #D6C7B7 */
+  --beige-mid:         35 30% 75%;   /* #BEAA8F */
+  --caramel:           30 45% 48%;   /* #90744F */
+  --brown-dark:        30 50% 20%;   /* #5A3B1E */
+  --brown-darker:      25 60% 10%;   /* #29180B */
 
-export default config;
+  /* Semantic color tokens */
+  --background:        var(--offwhite);
+  --foreground:        hsl(var(--brown-darker));
+
+  --card:              var(--beige-mid);
+  --card-foreground:   hsl(var(--brown-darker));
+
+  --popover:           var(--beige-light);
+  --popover-foreground:hsl(var(--brown-darker));
+
+  --primary:           var(--caramel);
+  --primary-foreground:var(--offwhite);
+  --primary-glow:      30 45% 60%;
+
+  --secondary:         var(--beige-light);
+  --secondary-foreground:hsl(var(--brown-darker));
+
+  --muted:             var(--beige-mid);
+  --muted-foreground:  hsl(var(--brown-dark));
+
+  --accent:            var(--caramel);
+  --accent-foreground: var(--offwhite);
+
+  --destructive:       0 60% 50%;
+  --destructive-foreground: var(--offwhite);
+
+  --border:            hsl(var(--brown-dark));
+  --input:             hsl(var(--brown-dark));
+  --ring:              var(--caramel);
+
+  --radius:            0.75rem;
+}
+
+.dark {
+  /* Dark mode: invert neutrals with earthy accents */
+  --background:        var(--brown-darker);
+  --foreground:        hsl(var(--offwhite));
+
+  --card:              var(--brown-dark);
+  --card-foreground:   hsl(var(--offwhite));
+
+  --popover:           var(--brown-dark);
+  --popover-foreground:hsl(var(--offwhite));
+
+  --primary:           var(--caramel);
+  --primary-foreground:var(--brown-darker);
+  --primary-glow:      30 45% 60%;
+
+  --secondary:         var(--beige-mid);
+  --secondary-foreground:hsl(var(--brown-darker));
+
+  --muted:             var(--beige-light);
+  --muted-foreground:  hsl(var(--brown-dark));
+
+  --accent:            var(--beige-mid);
+  --accent-foreground: var(--brown-darker);
+
+  --destructive:       0 60% 50%;
+  --destructive-foreground:hsl(var(--offwhite));
+
+  --border:            hsl(var(--brown-darker));
+  --input:             hsl(var(--brown-darker));
+  --ring:              var(--caramel);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
