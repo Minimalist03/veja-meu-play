@@ -1,47 +1,55 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Two base colors palette (HSL conversion of #D5C4B2 and #99784D) */
+/* Design system variables */
 :root {
-  --base-light: 31 29% 77%;   /* #D5C4B2 */
-  --base-dark:  34 33% 45%;   /* #99784D */
+  /* Fonts */
+  --font-heading: 'Playfair Display', serif;
+  --font-body: 'Inter', sans-serif;
 
-  /* Semantic tokens */
-  --background:          var(--base-light);
-  --foreground:          hsl(var(--base-dark));
-  --primary:             var(--base-dark);
-  --primary-foreground:  var(--base-light);
-  --surface:             var(--base-light);
-  --accent:              var(--base-dark);
-  --border:              hsl(var(--base-dark));
-  --radius:              0.75rem;
+  /* Core palette */
+  --color-primary:    30 45% 48%;   /* #90744F caramelo */
+  --color-secondary:  30 50% 20%;   /* #5A3B1E marrom escuro */
+  --color-neutral-99: 35 10% 98%;   /* #F8F6F5 off-white */
+  --color-neutral-85: 35 25% 80%;   /* #D6C7B7 bege claro */
+  --color-neutral-75: 35 30% 75%;   /* #BEAA8F bege médio */
+  --color-accent:     135 30% 20%;  /* #3A5A40 verde escuro */
+
+  /* Semantic */
+  --background:   var(--color-neutral-99);
+  --surface:      var(--color-neutral-85);
+  --surface-dark: var(--color-neutral-75);
+  --foreground:   hsl(var(--color-secondary));
+  --accent:       hsl(var(--color-accent));
+  --primary:      hsl(var(--color-primary));
+  --border:       hsl(var(--color-secondary));
+  --radius:       0.5rem;
 }
 
 .dark {
-  /* In dark mode, swap light and dark */
-  --background:          var(--base-dark);
-  --foreground:          hsl(var(--base-light));
-  --primary:             var(--base-light);
-  --primary-foreground:  var(--base-dark);
-  --surface:             var(--base-dark);
-  --accent:              var(--base-light);
-  --border:              hsl(var(--base-light));
+  --background:   var(--color-secondary);
+  --surface:      var(--color-secondary);
+  --surface-dark: var(--color-primary);
+  --foreground:   var(--color-neutral-99);
+  --accent:       hsl(var(--color-accent));
+  --primary:      var(--color-neutral-99);
+  --border:       var(--color-neutral-99);
 }
 
 @layer base {
-  /* Global border color */
-  * {
-    @apply border-border;
-  }
-
-  /* Base background & text */
+  /* Global reset */
+  *, *::before, *::after { box-sizing: border-box; }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-body antialiased;
+    margin:0; padding:0;
   }
-
-  /* Default button styling */
-  button, .btn {
-    @apply bg-primary text-primary-foreground rounded-md px-4 py-2;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+  input, button, textarea, select {
+    font-family: var(--font-body);
   }
 }
