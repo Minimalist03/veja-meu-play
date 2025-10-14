@@ -24,48 +24,48 @@ const config: Config = {
     extend: {
       colors: {
         /* ===== BACKGROUNDS ===== */
-        background: "var(--background)",
-        foreground: "var(--foreground)",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
 
         /* ===== SURFACES ===== */
         surface: {
           DEFAULT: "hsl(var(--surface))",
-          elevated: "var(--surface-elevated)",
-          hover: "var(--surface-hover)",
+          elevated: "hsl(var(--surface-elevated))",
+          hover: "hsl(var(--surface-hover))",
         },
 
         /* ===== TEXT COLORS ===== */
         text: {
-          primary: "var(--text-primary)",
-          secondary: "var(--text-secondary)",
-          muted: "var(--text-muted)",
+          primary: "hsl(var(--text-primary))",
+          secondary: "hsl(var(--text-secondary))",
+          muted: "hsl(var(--text-muted))",
         },
 
         /* ===== PRIMARY (CTAs) ===== */
         primary: {
-          DEFAULT: "var(--primary)",
-          hover: "var(--primary-hover)",
-          foreground: "var(--primary-foreground)",
+          DEFAULT: "hsl(var(--primary))",
+          hover: "hsl(var(--primary-hover))",
+          foreground: "hsl(var(--primary-foreground))",
         },
 
         /* ===== ACCENT (Highlights) ===== */
         accent: {
-          DEFAULT: "var(--accent)",
-          foreground: "var(--accent-foreground)",
-          hover: "var(--accent-hover)",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+          hover: "hsl(var(--accent-hover))",
         },
 
         /* ===== BORDERS ===== */
         border: {
-          DEFAULT: "var(--border)",
-          input: "var(--border-input)",
-          focus: "var(--border-focus)",
+          DEFAULT: "hsl(var(--border))",
+          input: "hsl(var(--border-input))",
+          focus: "hsl(var(--border-focus))",
         },
 
         /* ===== MUTED (Disabled/Subtle) ===== */
         muted: {
-          DEFAULT: "var(--muted)",
-          foreground: "var(--muted-foreground)",
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
         },
 
         /* ===== POPOVER ===== */
@@ -82,38 +82,38 @@ const config: Config = {
 
         /* ===== DESTRUCTIVE ===== */
         destructive: {
-          DEFAULT: "var(--destructive)",
-          foreground: "var(--destructive-foreground)",
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
         },
 
         /* ===== RING ===== */
-        ring: "var(--ring)",
+        ring: "hsl(var(--ring))",
 
         /* ===== ESTADOS ===== */
         success: {
-          DEFAULT: "var(--success)",
-          foreground: "var(--success-foreground)",
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
         },
         error: {
-          DEFAULT: "var(--error)",
-          foreground: "var(--error-foreground)",
+          DEFAULT: "hsl(var(--error))",
+          foreground: "hsl(var(--error-foreground))",
         },
         warning: {
-          DEFAULT: "var(--warning)",
-          foreground: "var(--warning-foreground)",
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
         },
         info: {
-          DEFAULT: "var(--info)",
-          foreground: "var(--info-foreground)",
+          DEFAULT: "hsl(var(--info))",
+          foreground: "hsl(var(--info-foreground))",
         },
 
         /* ===== INPUTS ===== */
         input: {
           DEFAULT: "hsl(var(--input-bg))",
-          bg: "var(--input-bg)",
-          border: "var(--input-border)",
-          focus: "var(--input-focus)",
-          disabled: "var(--input-disabled)",
+          bg: "hsl(var(--input-bg))",
+          border: "hsl(var(--input-border))",
+          focus: "hsl(var(--input-focus))",
+          disabled: "hsl(var(--input-disabled))",
         },
 
         /* ===== CORES RAW (para casos específicos) ===== */
