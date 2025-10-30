@@ -83,11 +83,11 @@ export const StepResult = ({ data, result }: StepResultProps) => {
           <div className="pt-4">
             <Button 
               size="lg" 
-              className="w-full font-bold py-6 text-lg"
+              className="w-full font-bold py-4 text-base sm:text-lg whitespace-normal h-auto leading-tight"
               onClick={handleWhatsAppClick}
             >
-              <MessageCircle className="mr-2 h-5 w-5" />
-              Falar com Advogada no WhatsApp
+              <MessageCircle className="mr-2 h-5 w-5 flex-shrink-0" />
+              Falar com a Advogada no WhatsApp
             </Button>
             <p className="text-xs text-center text-muted-foreground mt-3">
               Atendimento 100% online • Análise gratuita • Resposta em até 24h
@@ -100,8 +100,13 @@ export const StepResult = ({ data, result }: StepResultProps) => {
             <p className="text-sm text-muted-foreground">
               Caso tenha dúvidas ou novos documentos, você pode entrar em contato conosco.
             </p>
-            <Button variant="outline" size="lg" className="mt-4" onClick={handleWhatsAppClick}>
-              <MessageCircle className="mr-2 h-5 w-5" />
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="mt-4 text-base sm:text-lg whitespace-normal h-auto py-3 leading-tight" 
+              onClick={handleWhatsAppClick}
+            >
+              <MessageCircle className="mr-2 h-5 w-5 flex-shrink-0" />
               Entrar em Contato
             </Button>
           </div>
