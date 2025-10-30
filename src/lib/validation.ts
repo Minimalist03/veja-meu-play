@@ -25,11 +25,7 @@ export const leadFormSchema = z.object({
     .transform((val) => val.replace(/\D/g, "")),
 
   // CORRIGIDO PARA 'consentimentoLGPD'
-  consentimentoLGPD: z
-    .boolean()
-    .refine((val) => val === true, {
-      message: "É necessário concordar com os termos da LGPD",
-    }),
+  consentimentoLGPD: z.boolean().optional(),
 
   // ========== DADOS DO VOO ==========
   problema: z.enum(["cancelamento", "atraso", "bagagem_extraviada", "overbooking"], {
@@ -116,7 +112,8 @@ export const leadFormSchema = z.object({
     }
   }
 
-  // Se selecionou "Outra", o campo outraCompanhia é obrigatório ← ADICIONADO
+// LGPD é obrigatório apenas na etapa final
+  // Esta validação será acionada manualmente no handleNext
   if (data.ciaAerea === "Outra") {
     if (!data.outraCompanhia || data.outraCompanhia.trim().length < 3) {
       ctx.addIssue({
