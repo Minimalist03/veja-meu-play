@@ -30,7 +30,7 @@ const airlines: Airline[] = [
   "Air France",
   "Iberia",
   "TAP",
-  "Outra", // ← ADICIONAR
+  "Outra", // ← JÁ ADICIONADO
 ];
 
 const problems: { value: ProblemType; label: string }[] = [
@@ -114,6 +114,25 @@ export const StepFlightData = ({ form }: StepFlightDataProps) => {
           </Select>
           {errors.ciaAerea && (
             <p className="text-sm text-destructive">{errors.ciaAerea.message}</p>
+          )}
+          
+          {/* Campo condicional para "Outra" companhia ← ADICIONADO */}
+          {watch("ciaAerea") === "Outra" && (
+            <div className="space-y-2 animate-in fade-in-50 slide-in-from-top-2 duration-300">
+              <Input
+                id="outraCompanhia"
+                {...register("outraCompanhia")}
+                placeholder="Digite o nome da companhia aérea"
+                autoFocus
+                className={`w-full bg-offwhite border border-border px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-accent ${
+                  errors.outraCompanhia ? "border-destructive" : ""
+                }`}
+              />
+              <p className="text-xs text-muted-foreground">Ex: Emirates, Qatar Airways, etc.</p>
+              {errors.outraCompanhia && (
+                <p className="text-sm text-destructive">{errors.outraCompanhia.message}</p>
+              )}
+            </div>
           )}
         </div>
 
