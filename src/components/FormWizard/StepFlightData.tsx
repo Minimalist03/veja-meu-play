@@ -30,6 +30,7 @@ const airlines: Airline[] = [
   "Air France",
   "Iberia",
   "TAP",
+  "Outra", // ← ADICIONAR
 ];
 
 const problems: { value: ProblemType; label: string }[] = [
