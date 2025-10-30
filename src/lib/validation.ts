@@ -37,7 +37,7 @@ export const leadFormSchema = z.object({
   }),
 
   ciaAerea: z.enum(
-    ["Azul", "Latam", "Gol", "Voepass", "American Airlines", "Air France", "Iberia", "TAP"],
+    ["Azul", "Latam", "Gol", "Voepass", "American Airlines", "Air France", "Iberia", "TAP", "Outra"],
     {
       errorMap: () => ({ message: "Selecione a companhia aérea" }),
     }
@@ -64,6 +64,8 @@ export const leadFormSchema = z.object({
       },
       { message: "Voo deve ter ocorrido nos últimos 5 anos" }
     ),
+
+  outraCompanhia: z.string().optional(), // ← ADICIONADO
 
   origem: z
     .string()
@@ -110,6 +112,17 @@ export const leadFormSchema = z.object({
         code: z.ZodIssueCode.custom,
         message: "Informe quando a bagagem foi devolvida",
         path: ["tempoDevolucaoBagagem"],
+      });
+    }
+  }
+
+  // Se selecionou "Outra", o campo outraCompanhia é obrigatório ← ADICIONADO
+  if (data.ciaAerea === "Outra") {
+    if (!data.outraCompanhia || data.outraCompanhia.trim().length < 3) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Digite o nome da companhia aérea (mínimo 3 caracteres)",
+        path: ["outraCompanhia"],
       });
     }
   }
