@@ -1,6 +1,6 @@
 export type ProblemType = "cancelamento" | "atraso" | "bagagem_extraviada" | "overbooking";
 
-export type Airline = "Azul" | "Latam" | "Gol" | "Voepass" | "American Airlines" | "Air France" | "Iberia" | "TAP";
+export type Airline = "Azul" | "Latam" | "Gol" | "Voepass" | "American Airlines" | "Air France" | "Iberia" | "TAP" | "Outra";
 
 export type DelayTime = "menos_4h" | "mais_4h" | "mais_6h" | "mais_8h";
 
@@ -14,6 +14,7 @@ export interface LeadFormData {
   
   // Dados do voo
   ciaAerea: Airline | "";
+  outraCompanhia?: string;
   problema: ProblemType | "";
   dataVoo: string;
   origem: string;
