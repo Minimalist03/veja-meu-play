@@ -33,6 +33,7 @@ export const FormWizard = () => {
       consentimentoLGPD: false,
       problema: undefined, // Usar undefined para placeholders de Select
       ciaAerea: undefined, // Usar undefined para placeholders de Select
+      outraCompanhia: "", // ← ADICIONADO
       dataVoo: "",
       origem: "",
       destino: "",
@@ -70,6 +71,11 @@ export const FormWizard = () => {
       fieldsToValidate = ["nome", "email", "telefone", "consentimentoLGPD"];
     } else if (currentStep === "flight") {
       fieldsToValidate = ["problema", "ciaAerea", "dataVoo", "origem", "destino"];
+      
+      // Se selecionou "Outra", validar também outraCompanhia ← ADICIONADO
+      if (form.getValues("ciaAerea") === "Outra") {
+        fieldsToValidate.push("outraCompanhia");
+      }
     }
 
     const isValid = await form.trigger(fieldsToValidate);
