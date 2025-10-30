@@ -1,12 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Scale, CheckCircle2, Award, TrendingUp, Clock, ShieldCheck } from "lucide-react";
+import { ProblemType } from "@/types/lead"; // ← ADICIONAR
 
 interface HeroProps {
   onStartClick: () => void;
+  onProblemClick: (problema: ProblemType) => void; // ← ADICIONAR
 }
 
-export const Hero = ({ onStartClick }: HeroProps) => {
+export const Hero = ({ onStartClick, onProblemClick }: HeroProps) => {
+  // ← ADICIONAR este mapeamento
+  const caseTypes: { icon: string; title: string; desc: string; value: ProblemType }[] = [
+    { icon: "✈️", title: "Voo Cancelado", desc: "Sem aviso prévio", value: "cancelamento" },
+    { icon: "⏰", title: "Atraso +4h", desc: "Chegada atrasada", value: "atraso" },
+    { icon: "🧳", title: "Bagagem", desc: "Extraviada ou danificada", value: "bagagem_extraviada" },
+    { icon: "🚫", title: "Overbooking", desc: "Não pôde embarcar", value: "overbooking" },
+  ];
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-background px-4 py-16 md:py-20">
       {/* Background overlay - gradiente suave */}
@@ -34,13 +44,13 @@ export const Hero = ({ onStartClick }: HeroProps) => {
 
           {/* CTA Button */}
           <Button
-  size="lg"
-  onClick={onStartClick}
-  className="..."
->
-  <Scale className="mr-2 h-5 w-5 md:h-6 md:w-6 flex-shrink-0" />
-  <span className="whitespace-normal sm:whitespace-nowrap">Calcular Indenização Grátis</span>
-</Button>
+            size="lg"
+            onClick={onStartClick}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-bold py-6 px-8 md:py-7 md:px-12 text-base md:text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+          >
+            <Scale className="mr-2 h-5 w-5 md:h-6 md:w-6 flex-shrink-0" />
+            <span className="whitespace-normal sm:whitespace-nowrap">Calcular Indenização Grátis</span>
+          </Button>
 
           {/* Trust badges */}
           <div className="mt-6 md:mt-8 flex flex-wrap items-center justify-center gap-4 md:gap-6 text-text-muted text-xs md:text-sm px-4">
@@ -83,16 +93,12 @@ export const Hero = ({ onStartClick }: HeroProps) => {
           ))}
         </div>
 
-        {/* Case types */}
+        {/* Case types - MODIFICADO */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 px-4">
-          {[
-            { icon: "✈️", title: "Voo Cancelado", desc: "Sem aviso prévio" },
-            { icon: "⏰", title: "Atraso +4h", desc: "Chegada atrasada" },
-            { icon: "🧳", title: "Bagagem", desc: "Extraviada ou danificada" },
-            { icon: "🚫", title: "Overbooking", desc: "Não pôde embarcar" },
-          ].map((item, i) => (
+          {caseTypes.map((item, i) => (
             <Card
               key={i}
+              onClick={() => onProblemClick(item.value)} // ← ADICIONAR onClick
               className="bg-surface backdrop-blur-sm border border-beige-light p-3 md:p-4 text-center hover:bg-surface-elevated hover:border-primary/50 hover:shadow-md transition-all duration-300 group cursor-pointer"
             >
               <div className="text-3xl md:text-4xl mb-2 group-hover:scale-110 transition-transform">{item.icon}</div>
