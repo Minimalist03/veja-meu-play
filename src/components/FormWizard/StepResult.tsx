@@ -87,7 +87,7 @@ export const StepResult = ({ data, result }: StepResultProps) => {
               onClick={handleWhatsAppClick}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
-              Falar com a Advogada no WhatsApp
+              Falar com Advogada no WhatsApp
             </Button>
             <p className="text-xs text-center text-muted-foreground mt-3">
               Atendimento 100% online • Análise gratuita • Resposta em até 24h
